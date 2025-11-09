@@ -205,9 +205,10 @@ for i in range(num_examples_to_generate):
         {"role": "assistant", "content": assistant_response}
     ]
 
-    print("\n--- Generated Training Example (JSON) ---")
-    print(json.dumps(final_json_object, indent=2))
-    print("-" * 40)
+    if (i % 25) == 0:
+        print("\n--- Generated Training Example (JSON) ---")
+        print(json.dumps(final_json_object, indent=2))
+        print("-" * 40)
 
     all_test_cases.append(final_json_object)
 
