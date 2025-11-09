@@ -101,9 +101,9 @@ def generate_assistant_response(user_prompt: str) -> str | None:
 
 
 print(f"Attempting to connect to Trainer Generator: {GEN_MODEL_NAME}...")
-num_examples_to_generate = 25
+num_examples_to_generate = 1000
 topic = "Japan"
-output_filename = "generated_test_cases.json"
+output_filename = "test_cases.json"
 
 style_modifiers = [
     "a simple, one-sentence question about",
@@ -181,7 +181,8 @@ style_modifiers = [
 all_test_cases = []
 
 for i in range(num_examples_to_generate):
-    print(f"Generating training example {i+1}/{num_examples_to_generate}")
+    if (i % 25) == 0:
+        print(f"Generating training example {i+1}/{num_examples_to_generate}")
 
     modifier = random.choice(style_modifiers)
     prompt_for_gen = modifier.format(topic=topic)
