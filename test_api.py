@@ -1,5 +1,5 @@
 import requests
-from config import NVIDIA_API_KEY, NVIDIA_API_BASE, GENERALIST_MODEL, ROUTER_MODEL
+from config import NVIDIA_API_KEY, NVIDIA_API_BASE, GENERALIST_MODEL, ROUTER_MODEL, REWARD_MODEL, GEN_MODEL_NAME
 
 def test_api():
     """Test NVIDIA API connection"""

@@ -2,7 +2,6 @@ import sys
 sys.path.append('..')
 
 from core.decision_engine import DecisionEngine
-
 def test_decision_engine():
     engine = DecisionEngine()
     

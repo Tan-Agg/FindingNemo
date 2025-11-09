@@ -1,1 +1,32 @@
-{}
+///threshold is 5
+{
+  "SQL Query": {
+    "canonical_description": "Request for a SQL query to find the top 10 customers by revenue.",
+    "description": "Request for a SQL query to find the top 10 customers by revenue.",
+    "count": 5,
+    "queries": [
+      {
+        "prompt": "Write SQL to find top 10 customers by revenue",
+        "timestamp": "2025-11-09T11:18:22.664232"
+      },
+      {
+        "prompt": "Generate a SQL query for user analytics",
+        "timestamp": "2025-11-09T11:18:34.694961"
+      },
+      {
+        "prompt": "Create SQL for sales data",
+        "timestamp": "2025-11-09T11:18:46.763057"
+      },
+      {
+        "prompt": "Write database query for inventory",
+        "timestamp": "2025-11-09T11:18:58.802304"
+      },
+      {
+        "prompt": "SQL for customer segmentation",
+        "timestamp": "2025-11-09T11:19:10.873346"
+      }
+    ],
+    "first_seen": "2025-11-09T11:18:22.664232",
+    "last_seen": "2025-11-09T11:18:34.694961"
+  }
+}

@@ -17,7 +17,7 @@ NVIDIA_API_BASE = os.getenv("NVIDIA_API_BASE")
 
 # Thresholds
 SIMILARITY_THRESHOLD = 0.35
-QUERY_THRESHOLD = 3
+QUERY_THRESHOLD = 5
 
 # Costs (per 1M tokens)
 COSTS = {

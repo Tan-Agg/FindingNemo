@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from core.router import IntentRouter
+from coreOLD.router import IntentRouter
 
 def test_router():
     router = IntentRouter()
@@ -9,7 +9,10 @@ def test_router():
     test_queries = [
         "Write SQL to find top customers",
         "Review this Python code",
-        "Summarize this document"
+        "Summarize this document",
+        "I want to know about the Japan culture",
+        "What would Anne Frank do if she came to country Japan today?",
+        "how to recognise flying airplane from ground"
     ]
     
     print("\n" + "="*60)

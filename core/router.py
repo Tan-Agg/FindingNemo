@@ -27,22 +27,84 @@ class IntentRouter:
             }
         """
         
-        system_prompt = """You are an intent classifier for AI queries.
+        system_prompt = """
+        You are an expert 'Intent and Action' classification agent. Your sole purpose is to analyze a user's prompt and respond ONLY with a single, valid JSON object.
 
-Given a user query, generate a JSON response with:
-1. intent_label: A short, descriptive label in snake_case (2-4 words)
-2. description: A detailed 1-sentence description of what this task involves
-3. confidence: Your confidence score (0.0 to 1.0)
+Your JSON output MUST have this exact structure:
+{
+  "intent_label": "...",
+  "description": "..."
+}
 
-BE CONSISTENT: Similar queries should get the same intent_label.
+---
+## Field Definitions
 
-Examples:
-- "Write SQL to find top customers" → intent_label: "sql_generation"
-- "Review this Python code" → intent_label: "code_review"
-- "Summarize this document" → intent_label: "text_summarization"
+### 1. intent_label
+This field must be a concise, normalized noun phrase (2-5 words) that represents the core subject or topic of the prompt. This is the "topic" you would use to find similar documents in a database.
 
-Output ONLY valid JSON, nothing else."""
+* Rule 1 (Normalization):* Always use the same phrase for the same topic. (e.g., use "Global Warming" not "the effects of global warming").
+* Rule 2 (Concise): Be specific, but not a full sentence. (e.g., use "Python Dictionaries" not "how to use a dictionary in python").
 
+### 2. description
+This field is a *detailed, self-contained description of the user's full request*, to be used for RAG (Retrieval-Augmented Generation).
+
+* *Rule 1 (Self-Contained):* Rephrase the prompt into a full sentence or question. It must capture all constraints and details, as if it were a search query for a vector database.
+* *Rule 2 (De-Conversationalize):* Remove conversational fillers like "Hey," "Can you," or "Please help me."
+* *Rule 3 (Capture Nuance):* If the user expresses a feeling or complex goal, capture that.
+* *Rule 4 (label intent)
+---
+## Classification Guide (for description)
+
+* "Factual Query": User is asking for a simple, single fact. (Who, what, when, where...)
+* "Explanation": User wants to understand a concept. (How does, why does, explain...)
+* "Comparative Analysis": User wants to compare two or more things. (Pros and cons, vs, compare...)
+* "Code Generation": User is asking for a code snippet. (Write a script, Python function...)
+* "Code Debugging": User is providing code or an error and asking for a fix.
+* "Step-by-Step Guide": User is asking for instructions on how to do something. (How do I...)
+* "Creative Writing": User wants a creative output. (Write a poem, story, headline, social media post...)
+* "List Generation": User is asking for a list of items. (Give me 5 facts, list of resources...)
+* "Opinion Request": User is asking for a subjective opinion. (What do you think, is it good...)
+* "Conversation": User is making a simple conversational statement. (Hello, thanks, how are you...)
+* "Other": Use this only if no other category fits.
+
+---
+## Examples
+
+*User Prompt:* "What's the capital of Japan?"
+*Your Response:*
+{
+  "intent_label": "Japan Geography",
+  "description": "What is the capital city of Japan?"
+}
+
+*User Prompt:* "Can you write me a python script to sort a list?"
+*Your Response:*
+{
+  "intent_label": "Python Programming",
+  "description": "Request for a Python code snippet that demonstrates how to sort a list."
+}
+
+*User Prompt:* "Explain the pros and cons of electric cars."
+*Your Response:*
+{
+  "intent_label": "Electric Vehicles",
+  "description": "A detailed explanation and comparative analysis of the pros and cons of electric cars."
+}
+
+*User Prompt:* "I'm feeling overwhelmed by Japanese culture and customs and need some help."
+*Your Response:*
+{
+  "intent_label": "Japanese Culture",
+  "description": "User is feeling overwhelmed by Japanese culture and customs and is requesting resources or tips to understand them better."
+}
+
+*User Prompt:* "Write a short poem about a lonely robot."
+*Your Response:*
+{
+  "intent_label": "Creative Writing",
+  "description": "Request for a creative writing piece, specifically a short poem, about the subject of a lonely robot."
+}
+"""
         try:
             response = requests.post(
                 f"{self.base_url}/chat/completions",
@@ -56,7 +118,7 @@ Output ONLY valid JSON, nothing else."""
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
                     ],
-                    "temperature": 0.1,
+                    "temperature": 0.0,
                     "max_tokens": 200
                 },
                 timeout=30
