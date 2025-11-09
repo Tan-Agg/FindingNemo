@@ -1,6 +1,13 @@
 requests
+openai
 sentence-transformers
 scikit-learn
 gradio
+<<<<<<< HEAD
 openai
 python-dotenv
+=======
+python-dotenv
+openai
+tqdm
+>>>>>>> 38ec915ddca297bf76b0dbd97a7ef0b897c4d27d
