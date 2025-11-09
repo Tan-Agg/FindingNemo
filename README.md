@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="model_framework.png" alt="FindingNemo Model Framework" width="600"/>
+</p>
+
+
 # FindingNemo: Self-Evolving AI Agents 🚀
 
 ## Inspiration
@@ -48,3 +53,4 @@ The result: a **network of evolving agents**, each optimized for specific tasks.
 
 ## Built With
 FAISS, Hugging Face, JSON/JSONL, PEFT, LoRA, Mistral-7B, Nemotron, Nemotron-70B-Reward, NVIDIA NEMO/NIM API, Phi-3-mini, Python, Python microservices, SQLite, Streamlit
+
