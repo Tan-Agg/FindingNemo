@@ -27,7 +27,7 @@ REWARD_MODEL_NAME = "nvidia/llama-3.1-nemotron-70b-reward"
 
 # The comprehensive system prompt for the Training Data Generator
 PROMPT_GENERATOR_SYSTEM_PROMPT = """
-You are a 'User Prompt Simulator'. Your task is to generate a single, natural-sounding user request based on the topic provided.
+You are a 'User Prompt Simulator'. Your task is to generate a single, natural-sounding user request based on the intent provided.
 - **DO NOT** answer the request.
 - **DO NOT** add any pre-amble, quotes, or introduction.
 - **ONLY** output the user's request text and nothing else.
@@ -48,15 +48,15 @@ client = OpenAI(
 
 # --- Function to Generate Training Data ---
 
-def generate_random_prompt(topic: str) -> str | None:
+def generate_random_prompt(intent: str) -> str | None:
     """
-    API Call 1: Generates a random user prompt based on a general topic.
+    API Call 1: Generates a random user prompt based on a general intent.
     """
     try:
         messages = [
             {"role": "system", "content": PROMPT_GENERATOR_SYSTEM_PROMPT},
-            # The topic is the "user" message for this first call
-            {"role": "user", "content": topic}
+            # The intent is the "user" message for this first call
+            {"role": "user", "content": intent}
         ]
 
         response = client.chat.completions.create(
@@ -102,7 +102,7 @@ def generate_assistant_response(user_prompt: str) -> str | None:
 
 print(f"Attempting to connect to Trainer Generator: {GEN_MODEL_NAME}...")
 num_examples_to_generate = 1000
-topic = "Japan"
+intent = "Japan"
 output_filename = "test_cases.json"
 
 style_modifiers = [
@@ -120,8 +120,8 @@ style_modifiers = [
     "a prompt asking to compare and contrast two aspects of",
     "a question from the perspective of a total beginner about",
     "a question from a skeptical expert about",
-    "a prompt asking to explain {topic} as if to a 5-year-old",
-    "a prompt asking to explain {topic} for a college-level paper",
+    "a prompt asking to explain {intent} as if to a 5-year-old",
+    "a prompt asking to explain {intent} for a college-level paper",
     "a prompt from a teacher asking for a lesson plan on",
     "a prompt from a student who needs help with homework on",
     "a request for a bulleted list summarizing",
@@ -185,10 +185,10 @@ for i in range(num_examples_to_generate):
         print(f"Generating training example {i+1}/{num_examples_to_generate}")
 
     modifier = random.choice(style_modifiers)
-    prompt_for_gen = modifier.format(topic=topic)
+    prompt_for_gen = modifier.format(intent=intent)
 
-    if "{topic}" not in modifier:
-        prompt_for_gen = f"{modifier} {topic}"
+    if "{intent}" not in modifier:
+        prompt_for_gen = f"{modifier} {intent}"
     
     user_prompt = generate_random_prompt(prompt_for_gen)
     if not user_prompt:
