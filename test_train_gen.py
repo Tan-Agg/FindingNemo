@@ -101,7 +101,7 @@ def generate_assistant_response(user_prompt: str) -> str | None:
 
 
 print(f"Attempting to connect to Trainer Generator: {GEN_MODEL_NAME}...")
-num_examples_to_generate = 25
+num_examples_to_generate = 1000
 topic = "Japan"
 output_filename = "generated_test_cases.json"
 
